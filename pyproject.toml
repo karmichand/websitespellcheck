@@ -28,10 +28,12 @@ dependencies = [
     "lxml>=4.9.0",
     "pyspellchecker>=0.7.0",
     "language-tool-python>=2.7.0",
+    "flask>=3.0.0",
 ]
 
 [project.scripts]
 websitespellcheck = "websitespellcheck.cli:main"
+websitespellcheck-web = "websitespellcheck.web:main"
 
 [project.urls]
 Homepage = "https://github.com/example/websitespellcheck"
