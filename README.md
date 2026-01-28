@@ -12,6 +12,26 @@ A command-line tool to check websites for spelling and grammar errors.
 
 ## Installation
 
+### macOS (Homebrew)
+
+Install dependencies using Homebrew:
+```bash
+brew install python@3.12 openjdk
+```
+
+Add Java to your path (add to your shell profile for persistence):
+```bash
+export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+```
+
+Then install the package:
+```bash
+pip install -r requirements.txt
+pip install -e .
+```
+
+### Linux/Other
+
 ```bash
 pip install -r requirements.txt
 pip install -e .
