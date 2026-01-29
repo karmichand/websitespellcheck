@@ -104,7 +104,7 @@ class WebsiteChecker:
 
             # Extract all text for Grammarly export
             result.extracted_text = "\n\n".join(
-                elem.text for elem in text_elements if elem.text.strip()
+                elem["text"] for elem in text_elements if elem["text"].strip()
             )
 
             # Check spelling
