@@ -68,7 +68,7 @@ class GrammarChecker:
 
         for match in matches:
             # Skip ignored rules
-            if match.rule_id in self.IGNORED_RULES:
+            if match.ruleId in self.IGNORED_RULES:
                 continue
 
             # Skip spelling errors (let spell checker handle those)
@@ -80,7 +80,7 @@ class GrammarChecker:
                     message=match.message,
                     context=match.context,
                     suggestions=match.replacements[:5] if match.replacements else [],
-                    rule_id=match.rule_id,
+                    rule_id=match.ruleId,
                     category=match.category,
                     source=source,
                     tag=tag,
