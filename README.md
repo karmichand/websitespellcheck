@@ -47,7 +47,7 @@ docker compose up -d
 
 # Or build and run manually
 docker build -t websitespellcheck .
-docker run -p 5000:5000 websitespellcheck
+docker run -p 5001:5000 websitespellcheck
 ```
 
 ## Usage
@@ -63,7 +63,9 @@ websitespellcheck-web
 docker compose up -d
 ```
 
-Then open http://localhost:5000 in your browser.
+Then open http://localhost:5000 in your browser (or http://localhost:5001 when using Docker).
+
+**Note:** Port 5000 is used by AirPlay Receiver on macOS. Docker is configured to use port 5001 by default to avoid this conflict.
 
 ### Command Line
 
