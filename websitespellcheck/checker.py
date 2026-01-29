@@ -16,6 +16,7 @@ class CheckResult:
     grammar_errors: list[GrammarError] = field(default_factory=list)
     text_elements_count: int = 0
     error_message: str | None = None
+    extracted_text: str = ""
 
     @property
     def total_errors(self) -> int:
@@ -100,6 +101,11 @@ class WebsiteChecker:
             # Scrape the website
             text_elements = self.scraper.scrape(url)
             result.text_elements_count = len(text_elements)
+
+            # Extract all text for Grammarly export
+            result.extracted_text = "\n\n".join(
+                elem.text for elem in text_elements if elem.text.strip()
+            )
 
             # Check spelling
             if self.spelling_checker:
