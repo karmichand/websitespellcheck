@@ -51,6 +51,7 @@ def check_website():
             "url": result.url,
             "text_elements_count": result.text_elements_count,
             "total_errors": result.total_errors,
+            "extracted_text": result.extracted_text,
             "spelling_errors": [
                 {
                     "word": e.word,

@@ -131,7 +131,7 @@
             width: 50px;
             height: 50px;
             border: 4px solid #e0e0e0;
-            border-top-color: #667eea;
+            border-top-color: #15c39a;
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin: 0 auto 20px;
@@ -139,6 +139,142 @@
 
         @keyframes spin {
             to { transform: rotate(360deg); }
+        }
+
+        .page-being-reviewed {
+            background: linear-gradient(135deg, #15c39a 0%, #0a9f7b 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .page-being-reviewed .review-icon {
+            width: 24px;
+            height: 24px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .page-being-reviewed .review-label {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .page-being-reviewed .review-url {
+            font-weight: 600;
+            word-break: break-all;
+        }
+
+        .reviewed-page-info {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 2px solid #15c39a;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .reviewed-page-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .reviewed-page-header .grammarly-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #15c39a;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .reviewed-page-header .grammarly-badge svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .reviewed-page-url {
+            font-size: 1.1rem;
+            color: #333;
+            font-weight: 600;
+            word-break: break-all;
+        }
+
+        .reviewed-page-url a {
+            color: #15c39a;
+            text-decoration: none;
+        }
+
+        .reviewed-page-url a:hover {
+            text-decoration: underline;
+        }
+
+        .grammarly-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .grammarly-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .grammarly-btn.primary {
+            background: #15c39a;
+            color: white;
+        }
+
+        .grammarly-btn.primary:hover {
+            background: #0a9f7b;
+        }
+
+        .grammarly-btn.secondary {
+            background: white;
+            color: #15c39a;
+            border: 2px solid #15c39a;
+        }
+
+        .grammarly-btn.secondary:hover {
+            background: #f0fdf9;
+        }
+
+        .grammarly-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .copy-success {
+            color: #15c39a;
+            font-size: 0.85rem;
+            margin-left: 10px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .copy-success.show {
+            opacity: 1;
         }
 
         .results {
@@ -339,10 +475,54 @@
             <p style="font-size: 0.9rem; color: #666; margin-top: 10px;">
                 This may take a moment for larger websites
             </p>
+            <div class="page-being-reviewed" id="pageBeingReviewed">
+                <svg class="review-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M12 6v6l4 2"></path>
+                </svg>
+                <div>
+                    <div class="review-label">Currently reviewing:</div>
+                    <div class="review-url" id="reviewingUrl"></div>
+                </div>
+            </div>
         </div>
 
         <div class="card results" id="results">
             <div id="alertContainer"></div>
+
+            <div class="reviewed-page-info" id="reviewedPageInfo" style="display: none;">
+                <div class="reviewed-page-header">
+                    <span class="grammarly-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 12l2 2 4-4"></path>
+                            <circle cx="12" cy="12" r="10"></circle>
+                        </svg>
+                        Reviewed
+                    </span>
+                    <span style="color: #666; font-size: 0.85rem;">Grammar & Spelling Analysis</span>
+                </div>
+                <div class="reviewed-page-url">
+                    <a id="reviewedUrl" href="#" target="_blank"></a>
+                </div>
+                <div class="grammarly-actions">
+                    <button class="grammarly-btn primary" id="copyTextBtn" title="Copy extracted text to clipboard for use in Grammarly">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        Copy Text for Grammarly
+                    </button>
+                    <a class="grammarly-btn secondary" href="https://app.grammarly.com/" target="_blank" title="Open Grammarly Editor">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                            <polyline points="15 3 21 3 21 9"></polyline>
+                            <line x1="10" y1="14" x2="21" y2="3"></line>
+                        </svg>
+                        Open Grammarly
+                    </a>
+                    <span class="copy-success" id="copySuccess">Copied to clipboard!</span>
+                </div>
+            </div>
 
             <div class="summary" id="summary">
                 <div class="stat">
@@ -364,7 +544,7 @@
     </div>
 
     <footer>
-        <p>Powered by PySpellChecker & LanguageTool</p>
+        <p>Powered by PySpellChecker & LanguageTool | Grammarly-compatible export</p>
     </footer>
 
     <script>
@@ -372,6 +552,10 @@
         const loading = document.getElementById('loading');
         const results = document.getElementById('results');
         const submitBtn = document.getElementById('submitBtn');
+
+        // Store extracted text for Grammarly export
+        let extractedText = '';
+        let currentReviewUrl = '';
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -385,8 +569,16 @@
                 return;
             }
 
-            // Show loading, hide results
+            // Format URL for display
+            let displayUrl = url;
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                displayUrl = 'https://' + url;
+            }
+            currentReviewUrl = displayUrl;
+
+            // Show loading with URL being reviewed
             loading.classList.add('active');
+            document.getElementById('reviewingUrl').textContent = displayUrl;
             results.classList.remove('active');
             submitBtn.disabled = true;
 
@@ -419,6 +611,18 @@
             }
         });
 
+        // Copy text to clipboard for Grammarly
+        document.getElementById('copyTextBtn').addEventListener('click', async () => {
+            try {
+                await navigator.clipboard.writeText(extractedText);
+                const successMsg = document.getElementById('copySuccess');
+                successMsg.classList.add('show');
+                setTimeout(() => successMsg.classList.remove('show'), 2000);
+            } catch (err) {
+                alert('Failed to copy text. Please try again.');
+            }
+        });
+
         function showError(message) {
             results.classList.add('active');
             document.getElementById('alertContainer').innerHTML = `
@@ -426,12 +630,23 @@
             `;
             document.getElementById('summary').style.display = 'none';
             document.getElementById('errorDetails').innerHTML = '';
+            document.getElementById('reviewedPageInfo').style.display = 'none';
         }
 
         function showResults(data) {
             results.classList.add('active');
             document.getElementById('summary').style.display = 'grid';
             document.getElementById('alertContainer').innerHTML = '';
+
+            // Show reviewed page info
+            const reviewedPageInfo = document.getElementById('reviewedPageInfo');
+            reviewedPageInfo.style.display = 'block';
+            const reviewedUrlEl = document.getElementById('reviewedUrl');
+            reviewedUrlEl.href = data.url || currentReviewUrl;
+            reviewedUrlEl.textContent = data.url || currentReviewUrl;
+
+            // Store extracted text for Grammarly export
+            extractedText = data.extracted_text || '';
 
             // Update stats
             document.getElementById('elementsCount').textContent = data.text_elements_count;
